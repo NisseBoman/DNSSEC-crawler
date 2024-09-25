@@ -1,14 +1,42 @@
-import requests
 
-#api_url = "https://jsonplaceholder.typicode.com/todos/1"
-#response = requests.get(api_url)
-#response.json()
+##########################################################################
+##### Sample code to crawl DNS to if they have DNSSEC enabled or not #####
+##### Not saying this is amazing code but it an example on how       #####
+##### easy it is to figure it out                                    #####
+##### This is my first python code ever written                      #####
+##########################################################################
 
-#command to check DNS  whois www.ikea.com  | egrep -i "DNSSEC|signed"
+import subprocess
 
-#1. read a list of CID's
-#2. loop the services on each CID to get a list of domains
-#3. check each domain
-#4. output report 
+
+HOST = "api.fastly.com"
+
+def main():
+
+    domains = ["ikea.com", "ingka.com", "google.com", "boman.church"]
+    for tld in domains:
+        #print(tld)
+        print("Checking: " + tld + " for DNSSEC")
+        #subprocess.run("whois " + tld + " | egrep -i 'DNSSEC|signed'", shell=True, check=True, text=True)
+        command = "whois " + tld + " | egrep -i 'DNSSEC|signed'"
+        try:
+            result = subprocess.check_output(command, shell = True, executable = "/bin/bash", stderr = subprocess.STDOUT)
+
+        except subprocess.CalledProcessError as cpe:
+            result = cpe.output
+
+        finally:
+            for line in result.splitlines():
+                print(line.decode())
+                
+
+
+# This is the standard boilerplate that calls the main() function.
+if __name__ == '__main__':
+    main()
+
+
+
+
 
 
