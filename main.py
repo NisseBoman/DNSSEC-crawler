@@ -17,7 +17,6 @@ def main():
     for tld in domains:
         #print(tld)
         print("Checking: " + tld + " for DNSSEC")
-        #subprocess.run("whois " + tld + " | egrep -i 'DNSSEC|signed'", shell=True, check=True, text=True)
         command = "whois " + tld + " | egrep -i 'DNSSEC|signed'"
         try:
             result = subprocess.check_output(command, shell = True, executable = "/bin/bash", stderr = subprocess.STDOUT)
